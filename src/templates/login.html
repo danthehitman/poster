@@ -1,0 +1,33 @@
+<html lang="en">
+    {{template "_head.html"}}
+    <body>
+    {{template "_header.html"}}
+    <div>
+        <div>
+            <div>
+                <div >
+                    <div>
+                        <input type="text" name="username">
+                    </div>
+                    <div>
+                        <input type="password" name="password">
+                    </div>
+                </div>
+                <br>
+                <div>
+                    <div>
+                        <button type="submit" id="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+          $(function() {
+            $("#submit").click(function(e) {
+                $.post("/api/sessions", {name:"test"});
+            });
+          });
+        </script>
+</body>
+</html>

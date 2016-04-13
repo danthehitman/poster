@@ -1,0 +1,59 @@
+<component name="libraryTable">
+  <library name="GOPATH &lt;poster&gt;">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../helloGo/src/models" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org" />
+      <root url="file://C:/Dan/Projects/Go/src/9fans.net" />
+      <root url="file://C:/Dan/Projects/Go/src/pluralsight" />
+      <root url="file://$PROJECT_DIR$/../helloGo/src/controllers" />
+      <root url="file://$PROJECT_DIR$/../helloGo/src/main" />
+      <root url="file://$PROJECT_DIR$/../helloGo/src/viewmodels" />
+      <root url="file://C:/Dan/Projects/Go/src/gopkg.in" />
+      <root url="file://$PROJECT_DIR$/../helloGo/src/converters" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <excluded>
+      <root url="file://C:/Dan/Projects/Go/src/github.com/derekparker/delve/_fixtures" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/gorilla/mux/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/gcimporter15/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/bundle/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/oracle/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/types/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/lib/pq/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/derekparker/delve/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/pointer/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/pluralsight/.vscode" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/gorilla/context/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/gccgoimporter/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/derekparker/delve/dwarf/frame/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/rogpeppe/godef/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/guru/testdata" />
+      <root url="file://$PROJECT_DIR$" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/ssa/interp/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/gopkg.in/gorp.v1/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/9fans.net/go/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/cover/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/nsf/gocode/_gccgo" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/ssa/ssautil/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/nsf/gocode/_goremote" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/golang/lint/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/golang/lint/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/ssa/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/stringer/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/nsf/gocode/_testing" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/callgraph/cha/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/callgraph/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/rogpeppe/godef/go/printer/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/refactor/eg/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/vet/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/callgraph/rta/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/cmd/fiximports/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/loader/testdata" />
+      <root url="file://C:/Dan/Projects/Go/src/github.com/nsf/gocode/.git" />
+      <root url="file://C:/Dan/Projects/Go/src/golang.org/x/tools/go/gcimporter/testdata" />
+    </excluded>
+  </library>
+</component>
