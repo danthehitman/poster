@@ -1,7 +1,6 @@
 package model
 
-import "database/sql"
-
 type Session struct {
-	sessionId sql.NullString
+	SessionId string `sql:"type:uuid;default:uuid_generate_v4();primary key"`
+	User string
 }
