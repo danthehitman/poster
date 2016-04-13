@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	model.InitiDb("user=postgres password=admin dbname=poster sslmode=disable")
+	model.InitiDb("user=poster password=admin dbname=poster sslmode=disable search_path=api")
 	templateCache, _ := buildTemplateCache()
 	controller.Setup(templateCache)
 	api.Setup()
