@@ -39,6 +39,7 @@
       <root url="file://C:/Go/src/builtin" />
       <root url="file://C:/Go/src/html" />
       <root url="file://C:/Go/src/cmd" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/golang.org" />
       <root url="file://$PROJECT_DIR$/../../golib/src/github.com" />
       <root url="file://C:/Go/src/runtime" />
       <root url="file://C:/Go/src/container" />
@@ -88,13 +89,16 @@
       <root url="file://C:/Go/src/cmd/internal/unvendor/golang.org/x/arch/arm/armasm/testdata" />
       <root url="file://C:/Go/src/compress/testdata" />
       <root url="file://C:/Go/src/image/png/testdata" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/golang.org/x/crypto/sha3/testdata" />
       <root url="file://$PROJECT_DIR$/../../golib/src/github.com/jinzhu/inflection/.git" />
       <root url="file://C:/Go/src/runtime/testdata" />
       <root url="file://C:/Go/src/archive/tar/testdata" />
       <root url="file://C:/Go/src/compress/gzip/testdata" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/github.com/danthehitman/poster/.git" />
       <root url="file://$PROJECT_DIR$/../../golib/src/github.com/lib/pq/.git" />
       <root url="file://C:/Go/src/go/doc/testdata" />
       <root url="file://C:/Go/src/cmd/internal/unvendor/golang.org/x/arch/x86/x86asm/testdata" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/github.com/danthehitman/poster/.idea" />
       <root url="file://C:/Go/src/compress/bzip2/testdata" />
       <root url="file://C:/Go/src/debug/pe/testdata" />
       <root url="file://C:/Go/src/cmd/doc/testdata" />
@@ -104,7 +108,9 @@
       <root url="file://C:/Go/src/archive/zip/testdata" />
       <root url="file://C:/Go/src/cmd/objdump/testdata" />
       <root url="file://C:/Go/src/crypto/rsa/testdata" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/golang.org/x/crypto/.git" />
       <root url="file://C:/Go/src/cmd/vet/testdata" />
+      <root url="file://$PROJECT_DIR$/../../golib/src/golang.org/x/crypto/ssh/testdata" />
       <root url="file://C:/Go/src/go/parser/testdata" />
       <root url="file://C:/Go/src/cmd/yacc/testdata" />
       <root url="file://C:/Go/src/crypto/ecdsa/testdata" />

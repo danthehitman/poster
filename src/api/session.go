@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 	"encoding/json"
-	"model"
+	"github.com/danthehitman/poster/src/model"
 )
 
 type sessionController struct {

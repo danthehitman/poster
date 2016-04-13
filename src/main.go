@@ -7,9 +7,9 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"controller"
-	"api"
-	"model"
+	"github.com/danthehitman/poster/src/controller"
+	"github.com/danthehitman/poster/src/api"
+	"github.com/danthehitman/poster/src/model"
 )
 
 func main() {
