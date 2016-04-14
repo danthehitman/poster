@@ -7,13 +7,16 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"github.com/danthehitman/poster/src/controller"
-	"github.com/danthehitman/poster/src/api"
-	"github.com/danthehitman/poster/src/model"
+	"github.com/danthehitman/poster/controller"
+	"github.com/danthehitman/poster/api"
+	"github.com/danthehitman/poster/model"
+	"github.com/danthehitman/poster/config"
 )
 
 func main() {
-	model.InitiDb("user=poster password=admin dbname=poster sslmode=disable search_path=api")
+	config.Init()
+	//model.InitiDb("user=poster password=admin dbname=poster sslmode=disable search_path=api")
+	model.InitiDb(config.Database.ConnectionString)
 	templateCache, _ := buildTemplateCache()
 	controller.Setup(templateCache)
 	api.Setup()

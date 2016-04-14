@@ -94,11 +94,9 @@
       <root url="file://C:/Go/src/runtime/testdata" />
       <root url="file://C:/Go/src/archive/tar/testdata" />
       <root url="file://C:/Go/src/compress/gzip/testdata" />
-      <root url="file://$PROJECT_DIR$/../../golib/src/github.com/danthehitman/poster/.git" />
       <root url="file://$PROJECT_DIR$/../../golib/src/github.com/lib/pq/.git" />
       <root url="file://C:/Go/src/go/doc/testdata" />
       <root url="file://C:/Go/src/cmd/internal/unvendor/golang.org/x/arch/x86/x86asm/testdata" />
-      <root url="file://$PROJECT_DIR$/../../golib/src/github.com/danthehitman/poster/.idea" />
       <root url="file://C:/Go/src/compress/bzip2/testdata" />
       <root url="file://C:/Go/src/debug/pe/testdata" />
       <root url="file://C:/Go/src/cmd/doc/testdata" />

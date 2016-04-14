@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"github.com/danthehitman/poster/src/viewmodel"
+	"github.com/danthehitman/poster/viewmodel"
 	"html/template"
 	"net/http"
 )
