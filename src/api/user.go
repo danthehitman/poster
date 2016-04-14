@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 	"encoding/json"
-	"github.com/danthehitman/poster/model"
+	"model"
 )
 
 type userController struct {

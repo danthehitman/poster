@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"github.com/danthehitman/poster/controller"
-	"github.com/danthehitman/poster/api"
-	"github.com/danthehitman/poster/model"
-	"github.com/danthehitman/poster/config"
+	"controller"
+	"api"
+	"model"
+	"config"
 )
 
 func main() {
