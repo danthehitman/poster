@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"log"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 var Db *gorm.DB
@@ -20,6 +21,8 @@ func InitiDb(connectionString string) {
 	checkErr(err, "Failed to create extension uuid-ossp")
 	Db.CreateTable(&User{})
 	Db.CreateTable(&Session{})
+	Db.CreateTable(&ResourceAuthorization{})
+	Db.CreateTable(&ResourceGroup{})
 }
 
 func checkErr(err error, msg string) {
@@ -28,19 +31,11 @@ func checkErr(err error, msg string) {
 	}
 }
 
-func CreateSession(email string, pass string) (string, error) {
-	var user User
-	Db.Where("email = ?", email).First(&user)
-	if user.Email == "" {
-
-	}
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(pass))
-	if err != nil {
-		return "", err
-	}
+func CreateSession(user User) (string, error) {
 	var session = Session{ User:user }
+	session.ExpirationDate = time.Now().Add(time.Hour)
 	Db.Create(&session)
-	return session.SessionId, nil
+	return session.Uuid, nil
 }
 
 //func SessionForUser(sessionId string) (User, error) {

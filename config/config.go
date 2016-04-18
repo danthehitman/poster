@@ -7,22 +7,15 @@ import (
 )
 
 var Database dbConfig
-
-type config struct {
-	Database dbConfig
-}
+var ResourcePrefix string
 
 type dbConfig struct {
 	ConnectionString   string
 }
 
 func Init() {
-	ParseDatabaseConfig("development")
-}
-
-func ParseDatabaseConfig(env string) {
 	//user=poster password=admin dbname=poster sslmode=disable search_path=api
-	var connectionString = "host=$POSTGRES_PORT_5432_TCP_ADDR user=poster password=admin search_path=api dbname=poster sslmode=disable"
+	var connectionString = "host=$POSTGRES_PORT_5432_TCP_ADDR user=postgres password=hpvse1 search_path=api dbname=poster sslmode=disable"
 	// parse the env variable and set it properly
 	if strings.Contains(connectionString, "$POSTGRES_PORT_5432_TCP_ADDR") {
 		host, found := os.LookupEnv("POSTGRES_PORT_5432_TCP_ADDR")
@@ -37,4 +30,7 @@ func ParseDatabaseConfig(env string) {
 	Database = dbConfig{
 		ConnectionString:   connectionString,
 	}
+
+	//ResourcePrefix = "src/poster/src/"
+	ResourcePrefix = "src/"
 }

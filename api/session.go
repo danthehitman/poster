@@ -2,30 +2,45 @@ package api
 
 import (
 	"net/http"
-	"encoding/json"
 	"model"
+	"apimodel"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type sessionController struct {
 }
 
-type sessionParameters struct {
-	Email string
-	Password string
+func (sc *sessionController) PostSession(w http.ResponseWriter, r *http.Request) *apiError {
+	params, err := decodeAndValidateRequest(*r, apimodel.SessionParameters{})
+	if err != nil{
+		return BadRequestError(err)
+	}
+
+	dto, err := apimodel.FillSessionParametersStruct(params)
+	if err != nil{
+		return InternalServerError(err)
+	}
+
+	var sessionToken string
+
+	user, err := model.GetUserByEmail(dto.Email)
+	if err != nil {
+		return UnauthorizedError(err)
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(dto.Password))
+	if err != nil {
+		return UnauthorizedError(err)
+	}
+
+	sessionToken, err = model.CreateSession(user)
+	if (err != nil){
+		return InternalServerError(err)
+	}
+	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(sessionToken))
+	return nil
 }
 
-func (sc *sessionController) PostSession(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var params sessionParameters
-	err := decoder.Decode(&params)
-	if err != nil {
-		w.Write([]byte(err.Error()))
-	}
-	var sessionToken string
-	sessionToken, err = model.CreateSession(params.Email, params.Password)
-	if (err != nil){
-		w.Write([]byte(err.Error()))
-	}
-	w.Write([]byte(sessionToken))
-}
+
+
 

@@ -3,6 +3,7 @@ package controller
 import (
 	"html/template"
 	"net/http"
+	"config"
 )
 
 var (
@@ -13,11 +14,11 @@ func Setup(tc *template.Template) {
 	SetTemplateCache(tc)
 	createResourceServer()
 
-	http.HandleFunc("/", login.GetLogin)
+	//http.HandleFunc("/", login.GetLogin)
 }
 
 func createResourceServer() {
-	http.Handle("/resources/", http.StripPrefix("/resources", http.FileServer(http.Dir("resources"))))
+	http.Handle("/resources/", http.StripPrefix("/resources", http.FileServer(http.Dir(config.ResourcePrefix + "resources"))))
 }
 
 func SetTemplateCache(tc *template.Template) {
