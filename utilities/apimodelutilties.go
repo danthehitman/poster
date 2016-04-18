@@ -1,12 +1,11 @@
-package apimodel
-
+package utilities
 import (
 	"reflect"
 	"fmt"
 	"errors"
 )
 
-func setField(obj interface{}, name string, value interface{}) error {
+func SetField(obj interface{}, name string, value interface{}) error {
 	structValue := reflect.ValueOf(obj).Elem()
 	structFieldValue := structValue.FieldByName(name)
 

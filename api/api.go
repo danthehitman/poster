@@ -7,8 +7,10 @@ import (
 )
 
 var (
-	session = new(sessionController)
-	user = new(userController)
+	sessionCon = new(sessionController)
+	userCon = new(userController)
+	postCon = new(postController)
+
 )
 
 type ApiRequest struct {
@@ -43,11 +45,13 @@ func Setup() {
 	r := mux.NewRouter()
 
 	// Register unsecured routes
-	r.Handle("/api/sessions", appHandler(session.PostSession))
+	r.Handle("/api/sessions", appHandler(sessionCon.PostSession))
 
 	// Register secured routes
-	r.Handle("/api/users", secureAppHandler(user.PostUser))
-	r.Handle("/api/users/{id}", secureAppHandler(user.GetUser))
+	r.Handle("/api/users", secureAppHandler(userCon.PostUser))
+	r.Handle("/api/users/{id}", secureAppHandler(userCon.GetUser))
+	r.Handle("/api/posts", secureAppHandler(postCon.PostPost))
+	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost))
 
 	http.Handle("/", r)
 }

@@ -1,5 +1,6 @@
 package apimodel
 
+import "utilities"
 
 type SessionParameters struct {
 	Email string
@@ -9,7 +10,7 @@ type SessionParameters struct {
 func FillSessionParametersStruct(m map[string]interface{}) (*SessionParameters, error) {
 	s := &SessionParameters{}
 	for k, v := range m {
-		err := setField(s, k, v)
+		err := utilities.SetField(s, k, v)
 		if err != nil {
 			return s, err
 		}

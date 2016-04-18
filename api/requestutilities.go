@@ -10,7 +10,10 @@ import (
 	"net/http"
 )
 
-func decodeAndValidateRequest(r http.Request, dtoType interface{}) (map[string]interface{}, error){
+func decodeAndValidateRequest(r http.Request, dtoType interface{}, omitFields map[string]bool) (map[string]interface{}, error){
+	if omitFields == nil{
+		omitFields = map[string]bool{}
+	}
 	// Save the buffer so we can decode it a couple of times.
 	buf, _ := ioutil.ReadAll(r.Body)
 	var err error
@@ -30,13 +33,13 @@ func decodeAndValidateRequest(r http.Request, dtoType interface{}) (map[string]i
 	var int map[string]interface{}
 	err = decoder.Decode(&int)
 
-	err = validateFields(int, dtoType)
+	err = validateFields(int, dtoType, omitFields)
 	if err != nil {return requestVals, err}
 
 	return requestVals, err
 }
 
-func validateFields(requestMap map[string]interface{}, dto interface{}) (error){
+func validateFields(requestMap map[string]interface{}, dto interface{}, omitFields map[string]bool) (error){
 	// Create the fields map from the dto.
 	var dtoFields = make(map[string]bool)
 	dtoVal := reflect.ValueOf(dto)
@@ -55,7 +58,7 @@ func validateFields(requestMap map[string]interface{}, dto interface{}) (error){
 	// Loop the dto fields and make sure all fields in the dto are present in the reqeust.
 	for fieldName, _ := range dtoFields{
 		_, ok := requestMap[fieldName]
-		if !ok{
+		if !ok && !omitFields[fieldName] {
 			return errors.New(fieldName + " is required.")
 		}
 	}

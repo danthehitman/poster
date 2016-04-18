@@ -23,6 +23,7 @@ func InitiDb(connectionString string) {
 	Db.CreateTable(&Session{})
 	Db.CreateTable(&ResourceAuthorization{})
 	Db.CreateTable(&ResourceGroup{})
+	Db.CreateTable(&Post{})
 }
 
 func checkErr(err error, msg string) {
@@ -36,6 +37,11 @@ func CreateSession(user User) (string, error) {
 	session.ExpirationDate = time.Now().Add(time.Hour)
 	Db.Create(&session)
 	return session.Uuid, nil
+}
+
+func CreatePost(post Post) (Post, error) {
+	Db.Create(&post)
+	return post, nil
 }
 
 //func SessionForUser(sessionId string) (User, error) {

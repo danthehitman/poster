@@ -25,6 +25,12 @@ func GetUserById(id string) (User, error) {
 	return user, err
 }
 
+func GetPostById(id string) (Post, error) {
+	var post Post
+	err := Db.Where("uuid = ?", id).First(&post).Error
+	return post, err
+}
+
 func GetAuthorizedUser(token string) *User {
 	var session Session
 	if err := Db.Where("uuid = ? and expiration_date > ?", token, time.Now()).Preload("User").Find(&session).Error; err != nil{

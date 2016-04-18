@@ -11,7 +11,7 @@ type sessionController struct {
 }
 
 func (sc *sessionController) PostSession(w http.ResponseWriter, r *http.Request) *apiError {
-	params, err := decodeAndValidateRequest(*r, apimodel.SessionParameters{})
+	params, err := decodeAndValidateRequest(*r, apimodel.SessionParameters{}, nil)
 	if err != nil{
 		return BadRequestError(err)
 	}
