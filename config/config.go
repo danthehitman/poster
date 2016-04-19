@@ -31,6 +31,6 @@ func Init() {
 		ConnectionString:   connectionString,
 	}
 
-	//ResourcePrefix = "src/poster/src/"
-	ResourcePrefix = "src/"
+	//ResourcePrefix = "poster/src/"
+	ResourcePrefix = ""
 }
