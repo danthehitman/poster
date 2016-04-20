@@ -17,7 +17,9 @@ func InitiDb(connectionString string) {
 	checkErr(err, "Failed to open db.")
 	err = Db.Exec("CREATE SCHEMA api AUTHORIZATION poster;").Error
 	checkErr(err, "Failed to create schema api")
-	err = Db.Exec("CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";").Error
+	err = Db.Exec("drop extension \"uuid-ossp\";").Error
+	checkErr(err, "Failed to create extension uuid-ossp")
+	err = Db.Exec("CREATE EXTENSION \"uuid-ossp\";").Error
 	checkErr(err, "Failed to create extension uuid-ossp")
 	Db.CreateTable(&User{})
 	Db.CreateTable(&Session{})
