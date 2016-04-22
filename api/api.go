@@ -10,7 +10,6 @@ var (
 	sessionCon = new(sessionController)
 	userCon = new(userController)
 	postCon = new(postController)
-
 )
 
 type ApiRequest struct {
@@ -18,9 +17,11 @@ type ApiRequest struct {
 	User *model.User
 }
 
+// Use this handler when the request does not need to be secured (e.g. registration)
 type appHandler func(http.ResponseWriter, *http.Request) *apiError
 
-type secureAppHandler func(http.ResponseWriter, *ApiRequest) * apiError
+// Use this handler when the request will be secured with an auth token.
+type secureAppHandler func(http.ResponseWriter, *ApiRequest) *apiError
 
 func (fn secureAppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	request := ApiRequest{r, nil}
@@ -41,7 +42,7 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func Setup() {
+func Init() {
 	r := mux.NewRouter()
 
 	// Register unsecured routes

@@ -31,7 +31,7 @@ func GetPostById(id string) (Post, error) {
 	return post, err
 }
 
-func GetAuthorizedUser(token string) *User {
+func GetAuthenticatedUser(token string) *User {
 	var session Session
 	if err := Db.Where("uuid = ? and expiration_date > ?", token, time.Now()).Preload("User").Find(&session).Error; err != nil{
 		return nil

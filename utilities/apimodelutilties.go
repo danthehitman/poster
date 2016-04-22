@@ -1,11 +1,22 @@
 package utilities
+
 import (
 	"reflect"
 	"fmt"
 	"errors"
 )
 
-func SetField(obj interface{}, name string, value interface{}) error {
+func FillDto(s interface{}, m map[string]interface{}) (interface{}, error){
+	for k, v := range m {
+		err := setField(s, k, v)
+		if err != nil {
+			return &s, err
+		}
+	}
+	return s, nil
+}
+
+func setField(obj interface{}, name string, value interface{}) error {
 	structValue := reflect.ValueOf(obj).Elem()
 	structFieldValue := structValue.FieldByName(name)
 

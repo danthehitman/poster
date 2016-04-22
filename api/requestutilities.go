@@ -10,7 +10,8 @@ import (
 	"net/http"
 )
 
-func decodeAndValidateRequest(r http.Request, dtoType interface{}, omitFields map[string]bool) (map[string]interface{}, error){
+// Use omitFields to specify fields that should not be validated as required in the incoming DTO.
+func decodeAndValidateRequest(r http.Request, dtoStruct interface{}, omitFields map[string]bool) (map[string]interface{}, error){
 	if omitFields == nil{
 		omitFields = map[string]bool{}
 	}
@@ -33,7 +34,7 @@ func decodeAndValidateRequest(r http.Request, dtoType interface{}, omitFields ma
 	var int map[string]interface{}
 	err = decoder.Decode(&int)
 
-	err = validateFields(int, dtoType, omitFields)
+	err = validateFields(int, dtoStruct, omitFields)
 	if err != nil {return requestVals, err}
 
 	return requestVals, err

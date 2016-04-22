@@ -27,7 +27,7 @@ func (sc *postController) PostPost(w http.ResponseWriter, r *ApiRequest) *apiErr
 		return UnauthorizedError(nil)
 	}
 
-	post := apimodel.PostFromPostDto(*dto);
+	post := apimodel.PostFromPostDto(dto);
 
 	post, err = model.CreatePost(post)
 	if err != nil {

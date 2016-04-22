@@ -23,7 +23,7 @@ func main() {
 	log.Println("Database connection complete.")
 	templateCache, _ := buildTemplateCache()
 	controller.Setup(templateCache)
-	api.Setup()
+	api.Init()
 
 	http.ListenAndServe(":8000", nil)
 	//go http.ListenAndServe(":8000", nil)

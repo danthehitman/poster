@@ -16,7 +16,7 @@ func (sc *sessionController) PostSession(w http.ResponseWriter, r *http.Request)
 		return BadRequestError(err)
 	}
 
-	dto, err := apimodel.FillSessionParametersStruct(params)
+	dto, err := apimodel.FillSessionParameters(params)
 	if err != nil{
 		return InternalServerError(err)
 	}
