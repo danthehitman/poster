@@ -1,8 +1,8 @@
 package model
 
 type ResourceAction int; const (
-	Read ResourceAction = 1 + iota
-	Write
+	ReadResourceAction ResourceAction = 1 + iota
+	WriteResourceAction
 )
 
 func (r ResourceAction) String() string { return resourceActions[r-1] }

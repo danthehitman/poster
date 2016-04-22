@@ -10,6 +10,6 @@ type SessionParameters struct {
 }
 
 func FillSessionParameters(m map[string]interface{}) (SessionParameters, error) {
-	i, err := utilities.FillDto(&SessionParameters{}, m)
+	i, err := utilities.FillStructFromMap(&SessionParameters{}, m, false)
 	return *i.(*SessionParameters), err
 }

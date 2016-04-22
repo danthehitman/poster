@@ -5,21 +5,53 @@ import (
 	"encoding/json"
 	"model"
 	"github.com/gorilla/mux"
+	"apimodel"
+	"services"
 )
 
 type userController struct {
 }
 
-func (sc *userController) PostUser(w http.ResponseWriter, r *ApiRequest) *apiError {
-	decoder := json.NewDecoder(r.Body)
-	var user model.User
-	err := decoder.Decode(&user)
-	if err != nil {
+func (sc *userController) PostUser(w http.ResponseWriter, r *http.Request) *apiError {
+	params, err := decodeAndValidateRequest(*r, apimodel.RegisterUserDto{}, nil)
+	if err != nil{
 		return BadRequestError(err)
 	}
-	user, err = model.CreateUser(user)
-	resp, _ := json.Marshal(user)
-	w.Write(resp)
+
+	dto, err := apimodel.FillRegisterUserDto(params)
+	if err != nil{
+		return InternalServerError(err)
+	}
+
+	user, err := apimodel.UserModelFromRegisterDto(dto)
+	if (err != nil){
+		return InternalServerError(err)
+	}
+
+	tx :=model.Db.Begin()
+	*user, err = model.CreateUser(*user)
+	if (err != nil){
+		tx.Rollback()
+		return InternalServerError(err)
+	}
+
+	err = model.CreateResourceAuthorization(model.ResourceAuthorization{ UserId:user.Uuid, ResourceId:user.Uuid, Action:model.WriteResourceAction})
+	if (err!= nil){
+		tx.Rollback()
+		return InternalServerError(err)
+	}
+
+	responseDto, err := apimodel.UserDtoFromUserModel(*user)
+	if (err != nil){
+		tx.Rollback()
+		return InternalServerError(err)
+	}
+	tx.Commit()
+
+	w.WriteHeader(http.StatusCreated)
+	w.Header().Set("Content-Type", "application/json")
+	responseObject, err := json.Marshal(responseDto)
+	w.Write(responseObject)
 	return nil
 }
 
@@ -27,11 +59,42 @@ func (sc *userController) GetUser(w http.ResponseWriter, r *ApiRequest) *apiErro
 	args := mux.Vars(r.Request)
 	id := args["id"]
 
+	authorized := services.IsUserAuthorizedForResource(r.User.Uuid, id);
+	if !authorized {
+		return UnauthorizedError(nil)
+	}
+
 	user, err := model.GetUserById(id)
 	if err != nil{
 		return NotFoundError(err)
 	}
-	resp, _ := json.Marshal(user)
-	w.Write(resp)
+
+	responseDto, err := apimodel.UserDtoFromUserModel(user)
+	if (err != nil){
+		return InternalServerError(err)
+	}
+	responseObject, _ := json.Marshal(responseDto)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseObject)
+	return nil
+}
+
+func (sc *userController) DeleteUser(w http.ResponseWriter, r *ApiRequest) *apiError {
+	args := mux.Vars(r.Request)
+	id := args["id"]
+
+	authorized := services.IsUserAuthorizedForResource(r.User.Uuid, id);
+	if !authorized {
+		return UnauthorizedError(nil)
+	}
+
+	err := model.DeleteUserById(id)
+	if err != nil {
+		return InternalServerError(err)
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+	w.Write(nil)
 	return nil
 }

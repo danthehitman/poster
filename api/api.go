@@ -46,13 +46,14 @@ func Init() {
 	r := mux.NewRouter()
 
 	// Register unsecured routes
-	r.Handle("/api/sessions", appHandler(sessionCon.PostSession))
+	r.Handle("/api/sessions", appHandler(sessionCon.PostSession)).Methods("POST")
+	r.Handle("/api/users", appHandler(userCon.PostUser)).Methods("POST")
 
 	// Register secured routes
-	r.Handle("/api/users", secureAppHandler(userCon.PostUser))
-	r.Handle("/api/users/{id}", secureAppHandler(userCon.GetUser))
-	r.Handle("/api/posts", secureAppHandler(postCon.PostPost))
-	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost))
+	r.Handle("/api/users/{id}", secureAppHandler(userCon.GetUser)).Methods("GET")
+	r.Handle("/api/users/{id}", secureAppHandler(userCon.DeleteUser)).Methods("DELETE")
+	r.Handle("/api/posts", secureAppHandler(postCon.PostPost)).Methods("POST")
+	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost)).Methods("GET")
 
 	http.Handle("/", r)
 }

@@ -8,6 +8,9 @@ RUN go get github.com/jinzhu/gorm
 RUN go get github.com/lib/pq
 RUN go get golang.org/x/crypto/bcrypt
 RUN go get github.com/kardianos/osext
+RUN go get github.com/fatih/structs
+RUN go get github.com/gorilla/pat
+RUN go get github.com/gorilla/mux
 RUN go install poster
 ENTRYPOINT /go/bin/poster
 EXPOSE 8080

@@ -25,5 +25,5 @@ func UnauthorizedError(err error) *apiError {
 }
 
 func InternalServerError(err error ) * apiError {
-	return &apiError{Code:http.StatusInternalServerError, Message:"The system encountered an error", Error: err}
+	return &apiError{Code:http.StatusInternalServerError, Message:"The system encountered an error: " + err.Error(), Error: err}
 }

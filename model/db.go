@@ -38,20 +38,13 @@ func CreateSession(user User) (string, error) {
 	var session = Session{ User:user }
 	session.ExpirationDate = time.Now().Add(time.Hour)
 	Db.Create(&session)
-	return session.Uuid, nil
+	return session.Uuid, Db.Error
 }
 
 func CreatePost(post Post) (Post, error) {
 	Db.Create(&post)
-	return post, nil
+	return post, Db.Error
 }
-
-//func SessionForUser(sessionId string) (User, error) {
-//	var session Session
-//	Db.Where("session_id = ?", sessionId).First(&session)
-//	Db.Model(&session).Related(&session.User)
-//	return session.User, nil
-//}
 
 func CreateUser(user User) (User, error){
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
@@ -60,5 +53,15 @@ func CreateUser(user User) (User, error){
 	}
 	user.Password = string(hashedPassword[:])
 	Db.Create(&user)
-	return user, nil
+	return user, Db.Error
+}
+
+func DeleteUserById(userId string) error {
+	Db.Where("uuid = ?", userId).Delete(&User{})
+	return Db.Error
+}
+
+func CreateResourceAuthorization(resourceAuth ResourceAuthorization) error{
+	Db.Create(&resourceAuth)
+	return Db.Error
 }
