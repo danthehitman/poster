@@ -38,3 +38,23 @@ func GetAuthenticatedUser(token string) *User {
 	}
 	return &session.User
 }
+
+func GetPostsForUser(userId string) ([]Post, error) {
+	resources, err := GetAuthorizedResourcesForUser(userId, "post")
+	if err != nil {
+		return nil, err
+	}
+	var posts []Post
+	Db.Where("uuid in (?)", resources).Find(&posts)
+	return posts, Db.Error
+}
+
+func GetAuthorizedResourcesForUser(userId string, resourceType string) ([]string, error){
+	var resources []UsersResources
+	Db.Table("users_resources").Select([]string{"resource_id"}).Where("user_id = ? and resource_type = ?", userId, resourceType).Scan(&resources)
+	resStrings := make([]string, len(resources))
+	for i, v := range resources {
+		resStrings[i] = v.ResourceId
+	}
+	return resStrings, Db.Error
+}

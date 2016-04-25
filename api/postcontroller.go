@@ -18,7 +18,7 @@ func (sc *postController) PostPost(w http.ResponseWriter, r *ApiRequest) *apiErr
 		return BadRequestError(err)
 	}
 
-	dto, err := apimodel.FillPostDto(params)
+	dto, err := apimodel.FillPostDtoFromMap(params)
 	if err != nil{
 		return InternalServerError(err)
 	}
@@ -27,7 +27,7 @@ func (sc *postController) PostPost(w http.ResponseWriter, r *ApiRequest) *apiErr
 		return UnauthorizedError(nil)
 	}
 
-	post := apimodel.PostFromPostDto(dto);
+	post := apimodel.PostModelFromPostDto(dto);
 
 	post, err = model.CreatePost(post)
 	if err != nil {
@@ -35,7 +35,7 @@ func (sc *postController) PostPost(w http.ResponseWriter, r *ApiRequest) *apiErr
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	responseObject, err := json.Marshal(apimodel.PostDtoFromPost(post))
+	responseObject, err := json.Marshal(apimodel.PostDtoFromPostModel(post))
 	w.Write(responseObject)
 	return nil
 }
@@ -54,9 +54,28 @@ func (sc *postController) GetPost(w http.ResponseWriter, r *ApiRequest) *apiErro
 		return NotFoundError(err)
 	}
 
-	resp, _ := json.Marshal(apimodel.PostDtoFromPost(post))
+	resp, _ := json.Marshal(apimodel.PostDtoFromPostModel(post))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(resp)
 	return nil
 }
+
+func (sc *postController) GetPosts(w http.ResponseWriter, r *ApiRequest) *apiError {
+	posts, err := model.GetPostsForUser(r.User.Uuid)
+	if err != nil{
+		return InternalServerError(err)
+	}
+
+	//responseDto, err := apimodel.UserDtoFromUserModel(user)
+	//if (err != nil){
+	//	return InternalServerError(err)
+	//}
+
+	responseObject, _ := json.Marshal(posts)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseObject)
+	return nil
+}
+

@@ -6,4 +6,5 @@ type User struct {
 	FirstName string
 	LastName string
 	Password string
+	IsSuperUser bool `gorm:"not null;default:false"`
 }

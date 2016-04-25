@@ -5,6 +5,6 @@ type Post struct {
 	Title string
 	Description string
 	Body string
-	Owner   User `gorm:"ForeignKey:UserId;AssociationForeignKey:Uuid"`
+	Owner   User `gorm:"ForeignKey:OwnerId;AssociationForeignKey:Uuid"`
 	OwnerId string `sql:"type:uuid REFERENCES users(uuid)"`
 }

@@ -79,6 +79,23 @@ func (sc *userController) GetUser(w http.ResponseWriter, r *ApiRequest) *apiErro
 	w.Write(responseObject)
 	return nil
 }
+//
+//func (sc *userController) GetUsers(w http.ResponseWriter, r *ApiRequest) *apiError {
+//	user, err := model.GetUsersById(id)
+//	if err != nil{
+//		return NotFoundError(err)
+//	}
+//
+//	responseDto, err := apimodel.UserDtoFromUserModel(user)
+//	if (err != nil){
+//		return InternalServerError(err)
+//	}
+//	responseObject, _ := json.Marshal(responseDto)
+//	w.Header().Set("Content-Type", "application/json")
+//	w.WriteHeader(http.StatusOK)
+//	w.Write(responseObject)
+//	return nil
+//}
 
 func (sc *userController) DeleteUser(w http.ResponseWriter, r *ApiRequest) *apiError {
 	args := mux.Vars(r.Request)

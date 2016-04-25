@@ -44,6 +44,7 @@ func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func Init() {
 	r := mux.NewRouter()
+	r.StrictSlash(true)
 
 	// Register unsecured routes
 	r.Handle("/api/sessions", appHandler(sessionCon.PostSession)).Methods("POST")
@@ -51,9 +52,11 @@ func Init() {
 
 	// Register secured routes
 	r.Handle("/api/users/{id}", secureAppHandler(userCon.GetUser)).Methods("GET")
+	//r.Handle("/api/users", secureAppHandler(userCon.GetUsers)).Methods("GET")
 	r.Handle("/api/users/{id}", secureAppHandler(userCon.DeleteUser)).Methods("DELETE")
 	r.Handle("/api/posts", secureAppHandler(postCon.PostPost)).Methods("POST")
 	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost)).Methods("GET")
+	r.Handle("/api/posts", secureAppHandler(postCon.GetPosts)).Methods("GET")
 
 	http.Handle("/", r)
 }

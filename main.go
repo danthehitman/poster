@@ -19,7 +19,8 @@ import (
 func main() {
 	config.Init()
 	//model.InitiDb("user=poster password=admin dbname=poster sslmode=disable search_path=api")
-	model.InitiDb(config.Database.ConnectionString)
+	model.InitiDb(config.Database.ConnectionString, true)
+	model.DevStrap{}.InitDevDbRecords()
 	log.Println("Database connection complete.")
 	templateCache, _ := buildTemplateCache()
 	controller.Setup(templateCache)
