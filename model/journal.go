@@ -1,11 +1,11 @@
 package model
 
-type Post struct {
+type Journal struct {
 	Uuid string `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
 	Title string
 	Description string
-	Body string
 	Owner   User `gorm:"ForeignKey:OwnerId;AssociationForeignKey:Uuid"`
 	OwnerId string `sql:"type:uuid REFERENCES users(uuid)"`
-	Images []Image `gorm:"many2many:post_image;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
+	Posts []Post `gorm:"many2many:journal_post;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
+	Images []Image `gorm:"many2many:journal_image;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
 }

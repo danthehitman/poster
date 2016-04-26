@@ -21,7 +21,7 @@ func InitiDb(connectionString string, recreate bool) {
 	}
 	err = Db.Exec("CREATE SCHEMA api AUTHORIZATION poster;").Error
 	checkErr(err, "Failed to create schema api")
-	err = Db.Exec("CREATE EXTENSION \"uuid-ossp\";").Error
+	err = Db.Exec(`CREATE EXTENSION "uuid-ossp";`).Error
 	checkErr(err, "Failed to create extension uuid-ossp")
 	err = Db.CreateTable(&User{}).Error
 	checkErr(err, "Failed to create table  Users")
@@ -33,6 +33,8 @@ func InitiDb(connectionString string, recreate bool) {
 	checkErr(err, "Failed to create table  ResourceGroup")
 	err = Db.CreateTable(&Post{}).Error
 	checkErr(err, "Failed to create table  Post")
+	err = Db.CreateTable(&Journal{}).Error
+	checkErr(err, "Failed to create table  Journal")
 
 	err = Db.Exec("CREATE OR REPLACE VIEW api.users_resources AS " +
 	"SELECT ra.resource_id, " +

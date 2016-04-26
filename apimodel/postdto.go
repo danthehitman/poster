@@ -32,3 +32,12 @@ func PostDtoFromPostModel(post model.Post) PostDto{
 	i, _ := utilities.FillStructFromMap(&PostDto{}, modelMap, true)
 	return *i.(*PostDto)
 }
+
+func PostDtosFromPostModels(posts []model.Post) []PostDto {
+	var dtoResults []PostDto = make([]PostDto, len(posts))
+	for i, v := range posts {
+		dto := PostDtoFromPostModel(v)
+		dtoResults[i] = dto
+	}
+	return dtoResults
+}

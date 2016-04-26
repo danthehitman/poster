@@ -67,12 +67,12 @@ func (sc *postController) GetPosts(w http.ResponseWriter, r *ApiRequest) *apiErr
 		return InternalServerError(err)
 	}
 
-	//responseDto, err := apimodel.UserDtoFromUserModel(user)
-	//if (err != nil){
-	//	return InternalServerError(err)
-	//}
+	responseDtos := apimodel.PostDtosFromPostModels(posts)
+	if (err != nil){
+		return InternalServerError(err)
+	}
 
-	responseObject, _ := json.Marshal(posts)
+	responseObject, _ := json.Marshal(responseDtos)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(responseObject)
