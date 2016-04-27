@@ -31,6 +31,10 @@ func InitiDb(connectionString string, recreate bool) {
 	checkErr(err, "Failed to create table  ResourceAuthorization")
 	err = Db.CreateTable(&ResourceGroup{}).Error
 	checkErr(err, "Failed to create table  ResourceGroup")
+	err = Db.CreateTable(&Link{}).Error
+	checkErr(err, "Failed to create table  Journal")
+	err = Db.CreateTable(&Image{}).Error
+	checkErr(err, "Failed to create table  Journal")
 	err = Db.CreateTable(&Post{}).Error
 	checkErr(err, "Failed to create table  Post")
 	err = Db.CreateTable(&Journal{}).Error

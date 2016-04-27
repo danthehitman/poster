@@ -8,4 +8,5 @@ type Journal struct {
 	OwnerId string `sql:"type:uuid REFERENCES users(uuid)"`
 	Posts []Post `gorm:"many2many:journal_post;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
 	Images []Image `gorm:"many2many:journal_image;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
+	Links []Link `gorm:"many2many:post_link;AssociationForeignKey:Uuid;ForeignKey:Uuid"`
 }
