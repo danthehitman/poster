@@ -70,6 +70,21 @@ func CreatePost(post Post) (Post, error) {
 	return post, Db.Error
 }
 
+func CreateJournal(journal Journal) (Journal, error) {
+	Db.Create(&journal)
+	return journal, Db.Error
+}
+
+func CreateImage(image Image) (Image, error) {
+	Db.Create(&image)
+	return image, Db.Error
+}
+
+func CreateLink(link Link) (Link, error) {
+	Db.Create(&link)
+	return link, Db.Error
+}
+
 func CreateUser(user User) (User, error){
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	if err != nil {
