@@ -36,7 +36,10 @@ var (
 
 func (ds DevStrap) InitDevDbRecords() {
 	ds.createUsers()
+	ds.createImages()
+	ds.createLinks()
 	ds.createPosts()
+	ds.createJournals()
 	ds.createResourceAuthorizationsAndGroups()
 }
 
@@ -70,6 +73,7 @@ func (ds DevStrap) createJournals() {
 	journal1 = Journal{
 		Uuid:journal1Guid,
 		Title:"Journal 1",
+		Public:true,
 		Description:"Journal 1 description.",
 		OwnerId:user1Guid,
 		Posts:[]Post{post1, post2},
@@ -82,6 +86,7 @@ func (ds DevStrap) createJournals() {
 	journal2 = Journal{
 		Uuid:journal2Guid,
 		Title:"Journal 1",
+		Public:false,
 		Description:"Journal 1 description.",
 		OwnerId:user1Guid,
 		Posts:[]Post{post2, post3},
@@ -96,6 +101,7 @@ func (ds DevStrap) createPosts() {
 	var err error
 
 	post1 = Post{
+		Uuid:post1Guid,
 		Title:"Post1",
 		Description:"Post1 Description",
 		Body:"Post1 body.",
@@ -107,6 +113,7 @@ func (ds DevStrap) createPosts() {
 	checkErr(err, "Failed to create Post1")
 
 	post2 = Post{
+		Uuid:post2Guid,
 		Title:"Post2",
 		Description:"Post2 Description",
 		Body:"Post2 body.",
@@ -118,6 +125,7 @@ func (ds DevStrap) createPosts() {
 	checkErr(err, "Failed to create Post2")
 
 	post3 = Post{
+		Uuid:post3Guid,
 		Title:"Post3",
 		Description:"Post3 Description",
 		Body:"Post3 body.",
@@ -163,6 +171,36 @@ func (ds DevStrap) createImages() {
 
 func (ds DevStrap) createLinks() {
 	var err error
+
+	link1 = Link{
+		Uuid:link1Guid,
+		Title:"Link1",
+		Description:"Link1 description.",
+		Url:"http://google.com",
+		OwnerId:user1Guid,
+	}
+	link1, err = CreateLink(link1)
+	checkErr(err, "Failed to create Link1")
+
+	link2 = Link{
+		Uuid:link2Guid,
+		Title:"Link2",
+		Description:"Link2 description.",
+		Url:"http://google.com",
+		OwnerId:user1Guid,
+	}
+	link2, err = CreateLink(link2)
+	checkErr(err, "Failed to create Link2")
+
+	link3 = Link{
+		Uuid:link3Guid,
+		Title:"Link3",
+		Description:"Link3 description.",
+		Url:"http://google.com",
+		OwnerId:user1Guid,
+	}
+	link3, err = CreateLink(link3)
+	checkErr(err, "Failed to create Link3")
 }
 
 func (ds DevStrap) createResourceAuthorizationsAndGroups() {
