@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type DevStrap struct {
 
 }
@@ -18,6 +20,7 @@ var (
 	link1Guid string = "95dc1ec8-9b77-4334-a04d-e1eba4bb19e8"
 	link2Guid string = "74a888ab-eccd-4879-9798-491f56641dd2"
 	link3Guid string = "8775a758-aa33-4669-94b2-0895562e5193"
+	session1Guid string = "9b62ae00-374e-4be8-b1ae-b5df75f388ea"
 
 	user1 User
 	user2 User
@@ -65,6 +68,8 @@ func (ds DevStrap) createUsers() {
 	}
 	user2, err = CreateUser(user2)
 	checkErr(err, "Failed to create User2")
+
+	CreateSession(Session{Uuid:session1Guid, ExpirationDate:time.Now().Add(time.Hour * 24), UserId: user1Guid})
 }
 
 func (ds DevStrap) createJournals() {
@@ -73,7 +78,7 @@ func (ds DevStrap) createJournals() {
 	journal1 = Journal{
 		Uuid:journal1Guid,
 		Title:"Journal 1",
-		Public:true,
+		IsPublic:true,
 		Description:"Journal 1 description.",
 		OwnerId:user1Guid,
 		Posts:[]Post{post1, post2},
@@ -85,9 +90,9 @@ func (ds DevStrap) createJournals() {
 
 	journal2 = Journal{
 		Uuid:journal2Guid,
-		Title:"Journal 1",
-		Public:false,
-		Description:"Journal 1 description.",
+		Title:"Journal 2",
+		IsPublic:false,
+		Description:"Journal 2 description.",
 		OwnerId:user1Guid,
 		Posts:[]Post{post2, post3},
 		Images:[]Image{image3},
@@ -209,7 +214,7 @@ func (ds DevStrap) createResourceAuthorizationsAndGroups() {
 	auth1 := ResourceAuthorization{
 		UserId: user2Guid,
 		ResourceId:post1Guid,
-		Action:WriteResourceAction,
+		Action:EditResourceAction,
 		ResourceType:"post",
 	}
 	err = CreateResourceAuthorization(auth1)
@@ -218,7 +223,7 @@ func (ds DevStrap) createResourceAuthorizationsAndGroups() {
 	auth2 := ResourceAuthorization{
 		UserId: user1Guid,
 		ResourceId:post2Guid,
-		Action:WriteResourceAction,
+		Action:EditResourceAction,
 		ResourceType:"post",
 	}
 	err = CreateResourceAuthorization(auth2)
@@ -227,7 +232,7 @@ func (ds DevStrap) createResourceAuthorizationsAndGroups() {
 	auth3 := ResourceAuthorization{
 		UserId: user1Guid,
 		ResourceId:post3Guid,
-		Action:WriteResourceAction,
+		Action:EditResourceAction,
 		ResourceType:"post",
 	}
 	err = CreateResourceAuthorization(auth3)

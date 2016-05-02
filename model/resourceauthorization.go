@@ -2,14 +2,14 @@ package model
 
 type ResourceAction int; const (
 	ReadResourceAction ResourceAction = 1 + iota
-	WriteResourceAction
+	EditResourceAction
 )
 
 func (r ResourceAction) String() string { return resourceActions[r-1] }
 
 var resourceActions = [...]string{
 	"Read",
-	"Write",
+	"Edit",
 }
 
 type ResourceAuthorization struct {

@@ -10,6 +10,7 @@ var (
 	sessionCon = new(sessionController)
 	userCon = new(userController)
 	postCon = new(postController)
+	journalCon = new(journalController)
 )
 
 type ApiRequest struct {
@@ -57,6 +58,9 @@ func Init() {
 	r.Handle("/api/posts", secureAppHandler(postCon.PostPost)).Methods("POST")
 	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost)).Methods("GET")
 	r.Handle("/api/posts", secureAppHandler(postCon.GetPosts)).Methods("GET")
+	r.Handle("/api/journals/{id}", secureAppHandler(journalCon.GetJournal)).Methods("GET")
+	r.Handle("/api/journals/{id}/posts", secureAppHandler(journalCon.GetPostsForJournal)).Methods("GET")
+	r.Handle("/api/journals/{jid}/posts/{pid}", secureAppHandler(journalCon.GetPostForJournal)).Methods("GET")
 
 	http.Handle("/", r)
 }

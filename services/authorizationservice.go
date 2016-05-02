@@ -4,12 +4,13 @@ import(
 	"model"
 )
 
-func IsUserAuthorizedForResource (userId string, resourceId string) bool {
-	resourceAuth := model.ResourceAuthorization{}
+func IsUserAuthorizedForResourceRead(userId string, resourceId string) bool {
 	user, err:= model.GetUserById(userId)
 	if err == nil && user.IsSuperUser{return true}
 
-	err = model.Db.Where("user_id = ? and resource_id = ?", userId, resourceId).First(&resourceAuth).Error
+	resourceAuth := model.ResourceAuthorization{}
+
+	err = model.Db.Where("user_id = ? and resource_id = ? ", userId, resourceId).First(&resourceAuth).Error
 	if err != nil {
 		rows, err2 := model.Db.Table("resource_authorizations").Select("parent_resource_id").
 		Joins("left join resource_groups on resource_groups.parent_resource_id = resource_authorizations.resource_id").
@@ -25,4 +26,28 @@ func IsUserAuthorizedForResource (userId string, resourceId string) bool {
 
 	return false
 }
+
+func IsAuthorizedForResourceEditIsAuthorizedForResourceEdit(userId string, resourceId string) bool {
+	user, err:= model.GetUserById(userId)
+	if err == nil && user.IsSuperUser{return true}
+
+	resourceAuth := model.ResourceAuthorization{}
+	err = model.Db.Where("user_id = ? and resource_id = ? and action = ?", userId, resourceId, model.EditResourceAction).First(&resourceAuth).Error
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+
+func IsUserAuthorizedForJournalRead (userId string, journalId string) bool {
+	journal, err := model.GetJournalById(journalId)
+
+	if err != nil { return false }
+
+	if journal.IsPublic {return true}
+
+	return IsUserAuthorizedForResourceRead(userId, journalId)
+}
+
 

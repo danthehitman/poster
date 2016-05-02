@@ -35,7 +35,7 @@ func (sc *userController) PostUser(w http.ResponseWriter, r *http.Request) *apiE
 		return InternalServerError(err)
 	}
 
-	err = model.CreateResourceAuthorization(model.ResourceAuthorization{ UserId:user.Uuid, ResourceId:user.Uuid, Action:model.WriteResourceAction})
+	err = model.CreateResourceAuthorization(model.ResourceAuthorization{ UserId:user.Uuid, ResourceId:user.Uuid, Action:model.EditResourceAction})
 	if (err!= nil){
 		tx.Rollback()
 		return InternalServerError(err)
@@ -59,7 +59,7 @@ func (sc *userController) GetUser(w http.ResponseWriter, r *ApiRequest) *apiErro
 	args := mux.Vars(r.Request)
 	id := args["id"]
 
-	authorized := services.IsUserAuthorizedForResource(r.User.Uuid, id);
+	authorized := services.IsUserAuthorizedForResourceRead(r.User.Uuid, id);
 	if !authorized {
 		return UnauthorizedError(nil)
 	}
@@ -101,7 +101,7 @@ func (sc *userController) DeleteUser(w http.ResponseWriter, r *ApiRequest) *apiE
 	args := mux.Vars(r.Request)
 	id := args["id"]
 
-	authorized := services.IsUserAuthorizedForResource(r.User.Uuid, id);
+	authorized := services.IsUserAuthorizedForResourceRead(r.User.Uuid, id);
 	if !authorized {
 		return UnauthorizedError(nil)
 	}

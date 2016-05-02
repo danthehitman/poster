@@ -44,7 +44,7 @@ func (sc *postController) GetPost(w http.ResponseWriter, r *ApiRequest) *apiErro
 	args := mux.Vars(r.Request)
 	id := args["id"]
 
-	authorized := services.IsUserAuthorizedForResource(r.User.Uuid, id);
+	authorized := services.IsUserAuthorizedForResourceRead(r.User.Uuid, id);
 	if !authorized {
 		return UnauthorizedError(nil)
 	}

@@ -58,11 +58,16 @@ func checkErr(err error, msg string) {
 	}
 }
 
-func CreateSession(user User) (string, error) {
+func CreateSessionForUser(user User) (string, error) {
 	var session = Session{ User:user }
 	session.ExpirationDate = time.Now().Add(time.Hour)
 	Db.Create(&session)
 	return session.Uuid, Db.Error
+}
+
+func CreateSession(session Session) (Session, error) {
+	Db.Create(&session)
+	return session, Db.Error
 }
 
 func CreatePost(post Post) (Post, error) {

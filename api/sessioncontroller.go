@@ -32,7 +32,7 @@ func (sc *sessionController) PostSession(w http.ResponseWriter, r *http.Request)
 		return UnauthorizedError(err)
 	}
 
-	sessionToken, err = model.CreateSession(user)
+	sessionToken, err = model.CreateSessionForUser(user)
 	if (err != nil){
 		return InternalServerError(err)
 	}
