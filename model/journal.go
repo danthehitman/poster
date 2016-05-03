@@ -1,5 +1,7 @@
 package model
 
+var JournalPostJoinTable = "journal_post"
+
 type Journal struct {
 	Uuid        string `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
 	Title       string

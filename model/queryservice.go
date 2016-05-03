@@ -55,7 +55,7 @@ func GetPostsByJournalId(journalId string) ([]Post, error) {
 
 func IsPostInJournal(journalId string, postId string) (bool, error) {
 	var count int = 0
-	err := Db.Model(&Journal{}).Related(&[]Post{}).Where("journal_uuid = ? and post_uuid = ?", journalId, postId).Count(&count).Error
+	err := Db.Table(JournalPostJoinTable).Where("journal_uuid = ? and post_uuid = ?", journalId, postId).Count(&count).Error
 	return count > 0, err
 }
 
