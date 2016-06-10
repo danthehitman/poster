@@ -42,11 +42,11 @@ func InitiDb(connectionString string, recreate bool) {
 
 	err = Db.Exec("CREATE OR REPLACE VIEW api.users_resources AS " +
 	"SELECT ra.resource_id, " +
-	"ra.user_id, ra.resource_type " +
+	"ra.user_id, ra.resource_type, ra.action " +
 	"FROM api.resource_authorizations ra " +
 	"UNION ALL " +
 	"SELECT rg.resource_id, " +
-	"ra.user_id, rg.resource_type " +
+	"ra.user_id, rg.resource_type, 1 " +
 	"FROM api.resource_authorizations ra " +
 	"RIGHT JOIN api.resource_groups rg ON rg.parent_resource_id = ra.resource_id; ").Error
 	checkErr(err, "Failed to create view user_resources")

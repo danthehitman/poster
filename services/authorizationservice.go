@@ -5,13 +5,18 @@ import(
 )
 
 func IsUserAuthorizedForResourceRead(userId string, resourceId string) bool {
+	// If this is a super user then they can see what they want.  TODO: Revisit this.
 	user, err:= model.GetUserById(userId)
 	if err == nil && user.IsSuperUser{return true}
 
 	resourceAuth := model.ResourceAuthorization{}
 
+	// Check to see if we have an entry in the resourceAuthorization table for this user and resource.
 	err = model.Db.Where("user_id = ? and resource_id = ? ", userId, resourceId).First(&resourceAuth).Error
 	if err != nil {
+		//TODO: Is this group concept necessary?  If so do we use the view or do it this way?
+		// If we didnt have a record in resourceAuthorizations then we check to see if the user has rights
+		// to a resource group that the requested resource is a part of.
 		rows, err2 := model.Db.Table("resource_authorizations").Select("parent_resource_id").
 		Joins("left join resource_groups on resource_groups.parent_resource_id = resource_authorizations.resource_id").
 		Where("resource_groups.resource_id = ? and resource_authorizations.user_id = ?", resourceId, userId).Rows()
@@ -27,7 +32,7 @@ func IsUserAuthorizedForResourceRead(userId string, resourceId string) bool {
 	return false
 }
 
-func IsAuthorizedForResourceEditIsAuthorizedForResourceEdit(userId string, resourceId string) bool {
+func IsAuthorizedForResourceEdit(userId string, resourceId string) bool {
 	user, err:= model.GetUserById(userId)
 	if err == nil && user.IsSuperUser{return true}
 
