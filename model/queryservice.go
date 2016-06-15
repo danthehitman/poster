@@ -31,13 +31,29 @@ func GetJournalById(id string) (Journal, error) {
 	return entity, err
 }
 
-func GetJournalsForUser(userId string) ([]Journal, error) {
+func GetAuthorizedJournalsForUser(userId string, includePublic bool) ([]Journal, error) {
 	resources, err := GetAuthorizedResourcesForUser(userId, "journal")
 	if err != nil {
 		return nil, err
 	}
 	var entities []Journal
-	Db.Where("uuid in (?)", resources).Find(&entities)
+	publicClause := ""
+	if includePublic {
+		publicClause = " or is_public = true"
+	}
+	Db.Where("uuid in (?)" + publicClause, resources).Find(&entities)
+	return entities, Db.Error
+}
+
+func GetPublicJournalsByUserId(userId string) ([]Journal, error) {
+	var entities []Journal
+	Db.Where("owner_id = ? and is_public = true", userId).Find(&entities)
+	return entities, Db.Error
+}
+
+func GetPublicJournals() ([]Journal, error) {
+	var entities []Journal
+	Db.Where("is_public = ?", true).Find(&entities)
 	return entities, Db.Error
 }
 

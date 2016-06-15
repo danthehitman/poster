@@ -115,3 +115,32 @@ func (sc *userController) DeleteUser(w http.ResponseWriter, r *ApiRequest) *apiE
 	w.Write(nil)
 	return nil
 }
+
+func (sc *userController) GetJournalsByUser(w http.ResponseWriter, r *ApiRequest) *apiError {
+	args := mux.Vars(r.Request)
+	id := args["id"]
+
+	var (
+		journals []model.Journal
+		err error
+	)
+	if r.User == nil || services.IsUserAuthorizedForResourceRead(r.User.Uuid, id) {
+		journals, err = model.GetPublicJournalsByUserId(id)
+	} else {
+		journals, err = model.GetAuthorizedJournalsForUser(r.User.Uuid, false)
+	}
+	if err != nil{
+		return InternalServerError(err)
+	}
+
+	responseDtos := apimodel.JournalDto{}.DtosFromModels(journals)
+	if (err != nil){
+		return InternalServerError(err)
+	}
+
+	responseObject, _ := json.Marshal(responseDtos)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(responseObject)
+	return nil
+}

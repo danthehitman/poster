@@ -7,11 +7,11 @@ import (
 )
 
 type PostDto struct {
-	Uuid string
+	Uuid string `ark:"readonly"`
 	Title string
 	Description string
 	Body string
-	OwnerId string
+	OwnerId string `ark:"readonly"`
 }
 
 func FillPostDtoFromMap(m map[string]interface{}) (PostDto, error) {

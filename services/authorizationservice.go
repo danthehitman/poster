@@ -32,7 +32,7 @@ func IsUserAuthorizedForResourceRead(userId string, resourceId string) bool {
 	return false
 }
 
-func IsAuthorizedForResourceEdit(userId string, resourceId string) bool {
+func IsUserAuthorizedForResourceEdit(userId string, resourceId string) bool {
 	user, err:= model.GetUserById(userId)
 	if err == nil && user.IsSuperUser{return true}
 

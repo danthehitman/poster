@@ -37,6 +37,22 @@ func (fn secureAppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// Use this handler when the request will be secured with an auth token.
+type semiSecureAppHandler func(http.ResponseWriter, *ApiRequest) *apiError
+
+func (fn semiSecureAppHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	request := ApiRequest{r, nil}
+	user := AuthenticatedUser(*r)
+	if user != nil {
+		request.User = user
+	} else {
+		request.User = nil
+	}
+	if e := fn(w, &request); e != nil {
+		http.Error(w, e.Message, e.Code)
+	}
+}
+
 func (fn appHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if e := fn(w, r); e != nil {
 		http.Error(w, e.Message, e.Code)
@@ -53,12 +69,18 @@ func Init() {
 
 	// Register secured routes
 	r.Handle("/api/users/{id}", secureAppHandler(userCon.GetUser)).Methods("GET")
+	r.Handle("/api/users/{id}/journals", semiSecureAppHandler(userCon.GetJournalsByUser)).Methods("GET")
 	//r.Handle("/api/users", secureAppHandler(userCon.GetUsers)).Methods("GET")
 	r.Handle("/api/users/{id}", secureAppHandler(userCon.DeleteUser)).Methods("DELETE")
+
 	r.Handle("/api/posts", secureAppHandler(postCon.PostPost)).Methods("POST")
 	r.Handle("/api/posts/{id}", secureAppHandler(postCon.GetPost)).Methods("GET")
 	r.Handle("/api/posts", secureAppHandler(postCon.GetPosts)).Methods("GET")
+
+	r.Handle("/api/journals", semiSecureAppHandler(journalCon.GetJournals)).Methods("GET")
+	r.Handle("/api/journals", secureAppHandler(journalCon.PostJournal)).Methods("POST")
 	r.Handle("/api/journals/{id}", secureAppHandler(journalCon.GetJournal)).Methods("GET")
+	r.Handle("/api/journals/{id}", secureAppHandler(journalCon.PutJournal)).Methods("PUT")
 	r.Handle("/api/journals/{id}/posts", secureAppHandler(journalCon.GetPostsForJournal)).Methods("GET")
 	r.Handle("/api/journals/{jid}/posts/{pid}", secureAppHandler(journalCon.GetPostForJournal)).Methods("GET")
 

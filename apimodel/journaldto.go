@@ -6,12 +6,19 @@ import (
 	"github.com/fatih/structs"
 )
 
-type JournalDto struct {
-	Uuid string
+type CreateJournalDto struct {
 	Title string
 	Description string
 	IsPublic bool
-	OwnerId string
+	OwnerId string `ark:"readonly"`
+}
+
+type JournalDto struct {
+	Uuid string `ark:"readonly"`
+	Title string
+	Description string
+	IsPublic bool
+	OwnerId string `ark:"readonly"`
 }
 
 func (jd JournalDto) FillDtoFromMap(m map[string]interface{}) (JournalDto, error) {

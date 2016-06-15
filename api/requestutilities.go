@@ -66,3 +66,22 @@ func validateFields(requestMap map[string]interface{}, dto interface{}, omitFiel
 
 	return nil
 }
+
+func checkReadonlyFields(existing interface{}, new interface{}) (error) {
+	dtoType := reflect.TypeOf(new)
+	updatedValue := reflect.ValueOf(new)
+	existingValue := reflect.ValueOf(existing)
+
+	for i := 0; i < updatedValue.NumField(); i++ {
+		field := dtoType.Field(i)
+		if field.Tag.Get("ark") == "readonly" {
+			newVal := updatedValue.Field(i).Interface()
+			oldVal := existingValue.Field(i).Interface()
+
+			if newVal != oldVal {
+				return errors.New(field.Name + " is read only.")
+			}
+		}
+	}
+	return nil
+}

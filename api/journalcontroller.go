@@ -13,7 +13,7 @@ type journalController struct {
 }
 
 func (sc *journalController) PostJournal(w http.ResponseWriter, r *ApiRequest) *apiError {
-	params, err := decodeAndValidateRequest(*r.Request, apimodel.JournalDto{}, map[string]bool{"Uuid":true})
+	params, err := decodeAndValidateRequest(*r.Request, apimodel.CreateJournalDto{}, map[string]bool{"Uuid":true})
 	if err != nil{
 		return BadRequestError(err)
 	}
@@ -34,8 +34,57 @@ func (sc *journalController) PostJournal(w http.ResponseWriter, r *ApiRequest) *
 		return InternalServerError(err)
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	responseObject, err := json.Marshal(apimodel.JournalDto{}.DtoFromModel(journal))
+	w.Write(responseObject)
+	return nil
+}
+
+func (sc *journalController) PutJournal(w http.ResponseWriter, r *ApiRequest) *apiError {
+	args := mux.Vars(r.Request)
+	id := args["id"]
+
+	existingJournal, err := model.GetJournalById(id)
+
+	authorized := services.IsUserAuthorizedForResourceEdit(r.User.Uuid, id);
+	if !authorized {
+		return UnauthorizedError(nil)
+	}
+
+	if err != nil{
+		return NotFoundError(err)
+	}
+
+	params, err := decodeAndValidateRequest(*r.Request, apimodel.JournalDto{}, map[string]bool{"Uuid":true})
+	if err != nil{
+		return BadRequestError(err)
+	}
+
+	dto, err := apimodel.JournalDto{}.FillDtoFromMap(params)
+	if err != nil{
+		return InternalServerError(err)
+	}
+
+	if existingJournal.OwnerId != r.User.Uuid {
+		return UnauthorizedError(nil)
+	}
+
+	newJournal := apimodel.JournalDto{}.ModelFromDto(dto);
+	existingAsDto := apimodel.JournalDto{}.DtoFromModel(existingJournal)
+	err = checkReadonlyFields(existingAsDto, dto)
+	if err != nil{
+		return BadRequestError(err)
+	}
+
+	newJournal, err = model.UpdateJournal(newJournal)
+	if err != nil {
+		return InternalServerError(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	responseObject, err := json.Marshal(apimodel.JournalDto{}.DtoFromModel(newJournal))
 	w.Write(responseObject)
 	return nil
 }
@@ -62,7 +111,15 @@ func (sc *journalController) GetJournal(w http.ResponseWriter, r *ApiRequest) *a
 }
 
 func (sc *journalController) GetJournals(w http.ResponseWriter, r *ApiRequest) *apiError {
-	journals, err := model.GetJournalsForUser(r.User.Uuid)
+	var (
+		journals []model.Journal
+		err error
+	)
+	if r.User == nil {
+		journals, err = model.GetPublicJournals()
+	} else {
+		journals, err = model.GetAuthorizedJournalsForUser(r.User.Uuid, true)
+	}
 	if err != nil{
 		return InternalServerError(err)
 	}

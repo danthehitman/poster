@@ -34,6 +34,7 @@ func (sc *postController) PostPost(w http.ResponseWriter, r *ApiRequest) *apiErr
 		return InternalServerError(err)
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	responseObject, err := json.Marshal(apimodel.PostDtoFromPostModel(post))
 	w.Write(responseObject)

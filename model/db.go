@@ -80,6 +80,11 @@ func CreateJournal(journal Journal) (Journal, error) {
 	return journal, Db.Error
 }
 
+func UpdateJournal(journal Journal) (Journal, error) {
+	Db.Update(&journal)
+	return journal, Db.Error
+}
+
 func CreateImage(image Image) (Image, error) {
 	Db.Create(&image)
 	return image, Db.Error

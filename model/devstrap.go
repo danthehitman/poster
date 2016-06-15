@@ -245,7 +245,25 @@ func (ds DevStrap) createResourceAuthorizationsAndGroups() {
 		ResourceType:"post",
 	}
 	err = CreateResourceAuthorization(auth4)
-	checkErr(err, "Failed to create Auth3")
+	checkErr(err, "Failed to create Auth4")
+
+	auth5 := ResourceAuthorization{
+		UserId: user1Guid,
+		ResourceId:journal1Guid,
+		Action:EditResourceAction,
+		ResourceType:"journal",
+	}
+	err = CreateResourceAuthorization(auth5)
+	checkErr(err, "Failed to create Auth5")
+
+	auth6 := ResourceAuthorization{
+		UserId: user1Guid,
+		ResourceId:journal2Guid,
+		Action:EditResourceAction,
+		ResourceType:"journal",
+	}
+	err = CreateResourceAuthorization(auth6)
+	checkErr(err, "Failed to create Auth6")
 
 	authGroup1 := ResourceGroup{
 		ParentResourceId: post1Guid,
