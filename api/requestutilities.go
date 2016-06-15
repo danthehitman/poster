@@ -74,7 +74,7 @@ func checkReadonlyFields(existing interface{}, new interface{}) (error) {
 
 	for i := 0; i < updatedValue.NumField(); i++ {
 		field := dtoType.Field(i)
-		if field.Tag.Get("ark") == "readonly" {
+		if field.Tag.Get("ark-readonly") == "true" {
 			newVal := updatedValue.Field(i).Interface()
 			oldVal := existingValue.Field(i).Interface()
 

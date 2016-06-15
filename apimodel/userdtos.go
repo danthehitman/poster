@@ -19,7 +19,7 @@ func FillRegisterUserDto(m map[string]interface{}) (RegisterUserDto, error) {
 }
 
 type UserDto struct {
-	Uuid string
+	Uuid string `ark-readonly:"true"`
 	Email string
 	FirstName string
 	LastName string

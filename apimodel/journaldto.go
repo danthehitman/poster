@@ -10,15 +10,15 @@ type CreateJournalDto struct {
 	Title string
 	Description string
 	IsPublic bool
-	OwnerId string `ark:"readonly"`
+	OwnerId string `ark-readonly:"true"`
 }
 
 type JournalDto struct {
-	Uuid string `ark:"readonly"`
+	Uuid string `ark-readonly:"true"`
 	Title string
 	Description string
 	IsPublic bool
-	OwnerId string `ark:"readonly"`
+	OwnerId string `ark-readonly:"true"`
 }
 
 func (jd JournalDto) FillDtoFromMap(m map[string]interface{}) (JournalDto, error) {
