@@ -35,7 +35,6 @@ func decodeAndValidateRequest(r http.Request, dtoStruct interface{}, omitFields 
 	err = decoder.Decode(&int)
 
 	err = validateFields(int, dtoStruct, omitFields)
-	if err != nil {return requestVals, err}
 
 	return requestVals, err
 }
@@ -56,7 +55,7 @@ func validateFields(requestMap map[string]interface{}, dto interface{}, omitFiel
 		}
 	}
 
-	// Loop the dto fields and make sure all fields in the dto are present in the reqeust.
+	// Loop the dto fields and make sure all fields in the dto are present in the request.
 	for fieldName, _ := range dtoFields{
 		_, ok := requestMap[fieldName]
 		if !ok && !omitFields[fieldName] {
