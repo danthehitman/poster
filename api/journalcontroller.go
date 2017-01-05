@@ -146,7 +146,7 @@ func (sc *journalController) GetPostsForJournal(w http.ResponseWriter, r *ApiReq
 	}
 
 	posts, err := model.GetPostsByJournalId(id)
-	responseDtos := apimodel.PostDtosFromPostModels(posts)
+	responseDtos := apimodel.PostDto{}.DtosFromModels(posts)
 	if (err != nil){
 		return InternalServerError(err)
 	}
@@ -180,7 +180,7 @@ func (sc *journalController) GetPostForJournal(w http.ResponseWriter, r *ApiRequ
 		return NotFoundError(err)
 	}
 
-	resp, _ := json.Marshal(apimodel.PostDtoFromPostModel(post))
+	resp, _ := json.Marshal(apimodel.PostDto{}.DtoFromModel(post))
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(resp)

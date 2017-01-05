@@ -75,6 +75,11 @@ func CreatePost(post Post) (Post, error) {
 	return post, Db.Error
 }
 
+func UpdatePost(post Post) (Post, error) {
+	Db.Update(&post)
+	return post, Db.Error
+}
+
 func CreateJournal(journal Journal) (Journal, error) {
 	Db.Create(&journal)
 	return journal, Db.Error
